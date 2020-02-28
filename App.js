@@ -13,22 +13,26 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default function App() {
 
   const [todos, setTodos] = useState([]);
-  const [array, setArray] = useState([...todos])
+  const [array, setArray] = useState([]);
   const [checkSearch, setCheckSearch] = useState(false);
   const [taskNumber, setTaskNumber] = useState(0);
 
   //Get item from local storage when open the app
-  useEffect(() => {
-    AsyncStorage.getItem('todos').then(response => {
-      setTodos(JSON.parse(response));
-    });
-  },[]);
+    useEffect(() => {
+      AsyncStorage.getItem('todoListItem').then(response => {
+        {if(response != null)
+        setTodos(JSON.parse(response));
+        setArray(JSON.parse(response));
+        }
+      });
+    }, []);
+    // useEffect(() => {
+    // }, [search]);
 
   //Set item inside local storage when "todos" are be using
-  useEffect (() => {
-    console.log(todos);
-    AsyncStorage.setItem('todos', JSON.stringify(todos));
-  },[todos]);
+  useEffect(() => {
+    AsyncStorage.setItem('todoListItem', JSON.stringify(todos));
+  }, [todos]);
 
   //Calculate how many task. When checkBox are active
   const pressHandler = (key) => {
@@ -49,9 +53,15 @@ export default function App() {
 
   //Delete item when "remove" icon are be click
   const pressDelete = (key) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((todo => todo.key != key));
+     setTodos((prevTodos) => {
+      return prevTodos.filter((array => array.key != key))
     })
+  }
+
+  const pressDeleteForSearch = (key) => {
+    checkSearch ? setArray((prevTodos) => {
+      return prevTodos.filter((todo => todo.key != key));
+    }) : null
   }
 
   //Calculate how many task when "delete" icon are be click
@@ -59,10 +69,9 @@ export default function App() {
     setTodos((prevTodos) => {
       return prevTodos.filter((todo, index) => {
         if (todo.key === key) {
-          todo.check = !todo.check
           setTaskNumber(preState => {
             let number = preState;
-            todo.check ? number = number: number = number - 1;
+            todo.check ? number = number - 1 : number = number;
             return number
           })
         }
@@ -78,7 +87,6 @@ export default function App() {
         return [
           ...prevTodos,
           { text: text, key: Math.random().toString(), check: false, prioritization: false },
-
         ];
       });
     } else {
@@ -102,10 +110,11 @@ export default function App() {
   }
 
   const [search, setSearch] = useState('');
-
   //Search function
   useEffect(() => {
+    console.log(todos,'todos');
     setArray(todos);
+    console.log(array,'array');
     if (search !== "") {
       const newTodo = array.filter((array) => array.text.includes(search))
       setArray(newTodo);
@@ -130,7 +139,7 @@ export default function App() {
             <FlatList
               data={checkSearch ? array : todos}
               renderItem={({ item }) => (
-                <TodoItem item={item} pressHandler={pressHandler} pressDelete={pressDelete} pressPrioritization={pressPrioritization} pressAccurateCount={pressAccurateCount}/>
+                <TodoItem item={item} pressHandler={pressHandler} pressDelete={pressDelete} pressPrioritization={pressPrioritization} pressAccurateCount={pressAccurateCount} pressDeleteForSearch={pressDeleteForSearch}/>
               )}
             />
           </View>

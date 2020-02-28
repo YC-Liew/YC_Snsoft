@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, CheckBox, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Dialog from "react-native-dialog";
-export default function TodoItem({ item, pressHandler, pressDelete, pressPrioritization, pressAccurateCount}) {
+export default function TodoItem({ item, pressHandler, pressDelete, pressPrioritization, pressAccurateCount, pressDeleteForSearch}) {
 
     const [state, setState] = useState({ dialogVisible: false });
     const [textForEdit, setTextForEdit] = useState('ddd');
     const showDialog = () => {
         setState({ dialogVisible: true });
+        
     };
 
     const handleCancel = () => {
@@ -43,7 +44,7 @@ export default function TodoItem({ item, pressHandler, pressDelete, pressPriorit
                 <Dialog.Button label="Cancel" onPress={handleCancel} />
                 <Dialog.Button label="Complete" onPress={handleComplete} />
             </Dialog.Container>
-            <TouchableOpacity onPress={() => {pressAccurateCount(item.key);pressDelete(item.key)}}>
+            <TouchableOpacity onPress={() => {pressAccurateCount(item.key);pressDelete(item.key);pressDeleteForSearch(item.key)}}>
                 <Icon style={styles.itemIcon2} name='remove' size={28} color='#333'></Icon>
             </TouchableOpacity>
         </View>
