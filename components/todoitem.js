@@ -4,8 +4,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Dialog from "react-native-dialog";
 export default function TodoItem({ item, pressHandler, pressDelete, pressPrioritization, pressAccurateCount}) {
 
-    // const [check, setcheck] = useState(false)
-    // const [count, setcount] = useState({ product: 0 })
     const [state, setState] = useState({ dialogVisible: false });
     const [textForEdit, setTextForEdit] = useState('ddd');
     const showDialog = () => {
@@ -31,39 +29,6 @@ export default function TodoItem({ item, pressHandler, pressDelete, pressPriorit
     const changeHandlerForEdit = (val) => {
         setTextForEdit(val);
     }
-
-    const changeTextDecoration = (key) => {
-        //     if (item.check === false) {
-        //         styles.itemText = {
-        //             width: 240,
-        //             marginLeft: 10,
-        //             fontSize: 16,
-        //             marginTop: 4,
-        //         }
-        //     }
-
-        // else if (item.check === true) {
-        //         styles.itemText = {
-        //             width: 240,
-        //             marginLeft: 10,
-        //             fontSize: 16,
-        //             marginTop: 4,
-        //             textDecorationLine: 'line-through',
-        //             textDecorationStyle: 'solid'
-        //         }
-        //     }
-    }
-
-    // const changeTextDecorate = () => {
-    //     if (item.check === false)
-    //     {
-    //         return styles.itemText
-    //     }
-    //     else if (item.check === true)
-    //     {
-    //         return styles.itemText
-    //     }
-    // }
 
     return (
         <View style={item.check ? styles.item : styles.ComItem}>

@@ -12,59 +12,25 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export default function App() {
 
-  const [todos, setTodos] = useState([
-    // { text: 'buy coffee', key: '1',check: false,prioritization: false},
-    // { text: 'create an app', key: '2',check: false,prioritization: false},
-    // { text: 'play on the switch', key: '3',check: false,prioritization: false}
-  ]);
+  const [todos, setTodos] = useState([]);
   const [array, setArray] = useState([...todos])
   const [checkSearch, setCheckSearch] = useState(false);
-  // console.log(array,'array')
-  // useEffect(() => {
-  //   return _.orderBy(todos, ['text','key','check','prioritization'],['asc','asc','asc','asc'])
-  // },[todos] )
-  // seet(() => { reutnr _.orderBy(users, ['user', 'age'], ['asc', 'desc'])});  
-  //   .,[todos]
-
-  // todos.sort((a, b) => {
-  //   if (a.text < b.priori)
-  //   {
-  //     return 1
-  //   }
-  //   else
-  //   {
-  //     return -1
-  //   }
-  // })
-
-
-  // todos.sort((a, b) => {
-  //   if (a.prioritization < b.prioritization)
-  //   {
-  //     return 1
-  //   }
-  //   else
-  //   {
-  //     return -1
-  //   }
-  // })
-
   const [taskNumber, setTaskNumber] = useState(0);
 
+  //Get item from local storage when open the app
   useEffect(() => {
     AsyncStorage.getItem('todos').then(response => {
       setTodos(JSON.parse(response));
     });
-    // AsyncStorage.getItem('todos').then(response => { setTodos(JSON.stringify(response))})
-    // console.log(todos);
   },[]);
 
+  //Set item inside local storage when "todos" are be using
   useEffect (() => {
     console.log(todos);
-    // AsyncStorage.setItem('todos',JSON.stringify(todos));
     AsyncStorage.setItem('todos', JSON.stringify(todos));
   },[todos]);
 
+  //Calculate how many task. When checkBox are active
   const pressHandler = (key) => {
     setTodos((prevTodos) => {
       return prevTodos.filter((todo, index) => {
@@ -81,12 +47,14 @@ export default function App() {
     })
   }
 
+  //Delete item when "remove" icon are be click
   const pressDelete = (key) => {
     setTodos((prevTodos) => {
       return prevTodos.filter((todo => todo.key != key));
     })
   }
 
+  //Calculate how many task when "delete" icon are be click
   const pressAccurateCount = (key) => {
     setTodos((prevTodos) => {
       return prevTodos.filter((todo, index) => {
@@ -103,6 +71,7 @@ export default function App() {
     })
   }
 
+  //Add a new item when "Add" icon are be click
   const submitHandler = (text) => {
     if (text.length > 0) {
       setTodos((prevTodos) => {
@@ -119,6 +88,7 @@ export default function App() {
     }
   }
 
+  //Update the array "Prioritization" when "exclamation" Icon are be click
   const pressPrioritization = (key) => {
     setTodos((prevTodos) => {
       return prevTodos.filter((todo, index) => {
@@ -132,8 +102,8 @@ export default function App() {
   }
 
   const [search, setSearch] = useState('');
-  // const [filteredCountryList, setFilteredCountryList] = useState(todos);
 
+  //Search function
   useEffect(() => {
     setArray(todos);
     if (search !== "") {
