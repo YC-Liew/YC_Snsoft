@@ -32,6 +32,7 @@ export default function App() {
   //Set item inside local storage when "todos" are be using
   useEffect(() => {
     AsyncStorage.setItem('todoListItem', JSON.stringify(todos));
+    setArray(todos);
   }, [todos]);
 
   //Calculate how many task. When checkBox are active
