@@ -32,10 +32,8 @@ export default function App() {
   //Set item inside local storage when "todos" are be using
   useEffect(() => {
     AsyncStorage.setItem('todoListItem', JSON.stringify(todos));
-
     if(!checkSearch){
       setArray(todos);
-
     }
   }, [todos]);
 
@@ -117,9 +115,7 @@ export default function App() {
   const [search, setSearch] = useState('');
   //Search function
   useEffect(() => {
-    console.log(todos,'todos');
     setArray(todos);
-    console.log(array,'array');
     if (search !== "") {
       const newTodo = array.filter((array) => array.text.includes(search))
       setArray(newTodo);
@@ -129,6 +125,14 @@ export default function App() {
       setCheckSearch(false);
     }
   }, [search]);
+
+
+  useEffect(() => {
+    const check = true;
+    const count = todos.reduce((acc,cur) => cur.check === check ? ++acc : acc , 0);
+    setTaskNumber(count)
+    console.log(count,'count');
+  },[todos])
 
   return (
     <TouchableWithoutFeedback onPress={() => {
